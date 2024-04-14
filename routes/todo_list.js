@@ -21,14 +21,32 @@ router.post("/todo", async (req, res) => {
     res.status(400).send({ message: "Failed to save todo: " + err.message });
   }
 });
-
+router.put("/todo/:id", async (req, res) => {
+  try {
+    const { email, title, Description, Completed } = req.body;
+    const existingUser = await user.findOne({ email });
+    console.log(existingUser);
+    if (existingUser) {
+      const updatedTODO = await Todo_List.findByIdAndUpdate(req.params.id, {
+        title,
+        Description,
+        Completed,
+      });
+      updatedTODO.save().then(() => {
+        return res.status(200).json({ message: "Todo Updated!" });
+      });
+    }
+    //  res.status(400).json({ message: "User does not exist" });
+  } catch (err) {
+    res.status(400).json({ message: "Can't Update Todo: " + err.message });
+  }
+});
 router.delete("/todo", async (req, res) => {
   try {
     const { _id } = req.body;
     const todo_find = await Todo_List.findOne({ _id });
-    if(!todo_find)
-    {
-      return res.status(404).send({ message: "Todo does not exist"});
+    if (!todo_find) {
+      return res.status(404).send({ message: "Todo does not exist" });
     }
     todo_find
       .deleteOne()
