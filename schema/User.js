@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  todo_list: [{ type: mongoose.Types.ObjectId, ref: "todo_list" }],
 });
 
 module.exports = mongoose.model("user", userSchema);

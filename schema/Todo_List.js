@@ -13,6 +13,12 @@ const todo_list = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  user: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "user",
+    },
+  ],
 });
 
 module.exports = mongoose.model("todo_list", todo_list);
