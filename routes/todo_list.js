@@ -41,16 +41,20 @@ router.put("/todo/:id", async (req, res) => {
     res.status(400).json({ message: "Can't Update Todo: " + err.message });
   }
 });
-router.delete("/todo", async (req, res) => {
+router.delete("/todo/:id", async (req, res) => {
   try {
-    const { _id } = req.body;
-    const todo_find = await Todo_List.findOne({ _id });
-    if (!todo_find) {
-      return res.status(404).send({ message: "Todo does not exist" });
+    const { email } = req.body;
+    const existingUser = await user.findOne({ email });
+    if (existingUser) {
+      await user.findOneAndUpdate(
+        { email },
+        { $pull: { todo_list: req.params.id } }
+      ); // Remove the todo item ID from user's todo_list array
+      await Todo_List.findByIdAndDelete(req.params.id); // Delete the todo item
+      return res.status(200).json({ message: "Task Deleted!" });
+    } else {
+      return res.status(400).json({ message: "User not found" });
     }
-    todo_find
-      .deleteOne()
-      .then(() => res.status(200).json({ message: "Todo Deleted!" }));
   } catch (err) {
     res.status(400).send({ message: "Failed to delete todo: " + err.message });
   }
