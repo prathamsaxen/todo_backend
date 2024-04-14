@@ -21,6 +21,17 @@ router.post("/todo", async (req, res) => {
     res.status(400).send({ message: "Failed to save todo: " + err.message });
   }
 });
+router.get("/todo/:id", async (req, res) => {
+  try {
+    // const id=req.params.id;
+    const list = await Todo_List.find({ user: req.params.id });
+    res.status(200).send({ Data: list });
+  } catch (err) {
+    res
+      .status(400)
+      .send({ message: "Failed to retrieve todo: " + err.message });
+  }
+});
 router.put("/todo/:id", async (req, res) => {
   try {
     const { email, title, Description, Completed } = req.body;
