@@ -8,7 +8,7 @@ const PORT = 8000 || process.env.PORT;
 connectDB();
 
 app.use(express.json());
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
   res.send("Server is Running");
 });
 app.use("/api/auth", auth);
