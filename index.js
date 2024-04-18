@@ -3,10 +3,12 @@ const app = express();
 const auth = require("./routes/auth");
 const todo_list = require("./routes/todo_list");
 const connectDB = require("./config/db");
+const cors = require('cors');
+
 const PORT = 8000 || process.env.PORT;
 
 connectDB();
-
+app.use(cors)
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Server is Established");
