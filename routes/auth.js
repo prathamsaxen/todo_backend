@@ -35,7 +35,7 @@ router.post("/signin", async (req, res) => {
   try {
     const User = await user.findOne({ email: req.body.email });
     if (!User) {
-      res.status(400).json({ message: "No User found!" });
+      return res.status(400).json({ message: "No User found!" });
     }
     const isPasswordMatch = await comparePasswords(
       req.body.password,
