@@ -5,6 +5,11 @@ const { hashPassword, comparePasswords } = require("../middleware/bcrypt");
 router.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    const checkUser= await user.findOne({email:email});
+    if(checkUser)
+    {
+      return res.status(400).json({message:"Email Already Exists!"});
+    }
     const hashedPassword = await hashPassword(password);
     const USER = new user({
       name: name,
