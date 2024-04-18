@@ -8,7 +8,7 @@ const cors = require('cors');
 const PORT = 8000 || process.env.PORT;
 
 connectDB();
-app.use(cors)
+app.use(cors())
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Server is Established");
