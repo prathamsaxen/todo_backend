@@ -42,7 +42,7 @@ router.post("/signin", async (req, res) => {
       User.password
     );
     if (!isPasswordMatch) {
-      res.status(400).json({ message: "Password does not match" });
+      return res.status(400).json({ message: "Password does not match" });
     }
     const { password, ...others } = User._doc;
     res.status(200).json({ ...others });
